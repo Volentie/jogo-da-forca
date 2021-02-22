@@ -35,7 +35,10 @@ def ask(): # Pergunta o usuário a palavra e atribui a mesma à uma variável
     # Verifica se a palavra contém apenas letras se não executa a função novamente
     global word
     word = input("Digite sua palavra:")
-    word = list( word ) if word.isalpha() else ask()
+    word = word if word.isalpha() else ask()
+    global nWord
+    nWord = word
+    word = list( word )
     return word
 ask()
 lines = ['_' for x in range( len( word ) )] # Converte o número de letras para "_" para formar o jogo
@@ -43,7 +46,7 @@ tentativas = 0
 acertos = 0
 erros = 0
 errlist = []
-maxErr = 7 if len( word ) > 7 else len( word ) # Define o limite de erros
+maxErr = len( word ) + 5 # Define o limite de erros
 def put(): # Nossa função que contém o algorítmo do jogo
     char = input('Digite uma letra:') # Pede uma letra para advinhar
     if isinstance(char, str) and len(char) == 1 and char.isalpha() : # Verifica se é a letra é mesmo uma letra e tem somente um caractére
@@ -52,8 +55,9 @@ def put(): # Nossa função que contém o algorítmo do jogo
         global erros
         tentativas += 1 # Inserimos uma tentativa
         if not char in word: # Se não existir essa letra na palavra saímos logo da função e adicionamos um erro
-            man[erros] = part[erros] # Inserimos a parte do stick no desenho
-            draw() # Atualizamos o desenho
+            if erros <= 7:
+                man[erros] = part[erros] # Inserimos a parte do stick no desenho
+                draw() # Atualizamos o desenho
             erros += 1
             errlist.append(char) # Colocamos a palavra na lista de erros
             return
@@ -85,6 +89,6 @@ while( acertos != len(word) and erros != maxErr ):
     put() # Executa o código
 
 if erros == maxErr: # Se você tiver errado o suficiente:
-    print("Você perdeu =(")
+    print( "Você perdeu =(\nA palavra era: "+nWord )
 else: # Se não:
-    print("Parabéns, você ganhou!")
+    print( "Parabéns, você ganhou!\nA palavra é: "+nWord )

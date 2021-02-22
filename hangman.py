@@ -65,6 +65,7 @@ def put(): # Nossa função que contém o algorítmo do jogo
                 # -----------------
                 global acertos # Pegamos a variável acertos fora do escopo da função
                 acertos += 1 # Inserimos um acerto
+                draw()
         return
     print("INSIRA UMA LETRA!") # Se o jogador não digitar uma letra, exibimos seu erro e executamos novamente o jogo
     put()

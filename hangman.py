@@ -75,7 +75,7 @@ while( acertos != len(word) and erros != len( word ) ):
     # Mostramos na tela as tentativas, erros e acertos do jogador
     print("\nTentativas: {0} | Acertos: {1} ({2}) | Erros: {3} ({4})".format(tentativas, acertos, str( len(word) ), erros, str( len( word ) ) ) )
     # Mostra na tela as linhas da forca
-    print( ' '.join(lines) ) 
+    print( '\n'+' '.join(lines) ) 
     print('\n')
     put() # Executa o código
     

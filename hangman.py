@@ -42,6 +42,8 @@ lines = ['_' for x in range( len( word ) )] # Converte o número de letras para 
 tentativas = 0
 acertos = 0
 erros = 0
+errlist = []
+maxErr = 7 if len( word ) > 7 else len( word ) # Define o limite de erros
 def put(): # Nossa função que contém o algorítmo do jogo
     char = input('Digite uma letra:') # Pede uma letra para advinhar
     if isinstance(char, str) and len(char) == 1 and char.isalpha() : # Verifica se é a letra é mesmo uma letra e tem somente um caractére
@@ -51,8 +53,9 @@ def put(): # Nossa função que contém o algorítmo do jogo
         tentativas += 1 # Inserimos uma tentativa
         if not char in word: # Se não existir essa letra na palavra saímos logo da função e adicionamos um erro
             man[erros] = part[erros] # Inserimos a parte do stick no desenho
-            draw() # Atualizamos o de
+            draw() # Atualizamos o desenho
             erros += 1
+            errlist.append(char) # Colocamos a palavra na lista de erros
             return
         for l in word: # Itera sobre nossa palavra para as verificações e substituições
             if char == l: # Se a letra se encontra na nossa palavra:
@@ -65,22 +68,23 @@ def put(): # Nossa função que contém o algorítmo do jogo
                 # -----------------
                 global acertos # Pegamos a variável acertos fora do escopo da função
                 acertos += 1 # Inserimos um acerto
-                draw()
+        draw()
         return
     print("INSIRA UMA LETRA!") # Se o jogador não digitar uma letra, exibimos seu erro e executamos novamente o jogo
     put()
 
 print(forca) # Mostra a forca limpa
 # Enquanto as linhas da forca não estiverem totalmente preenchida ou exceder o número de erros:
-while( acertos != len(word) and erros != len( word ) ):
+while( acertos != len(word) and erros != maxErr ):
     # Mostramos na tela as tentativas, erros e acertos do jogador
-    print("\nTentativas: {0} | Acertos: {1} ({2}) | Erros: {3} ({4})".format(tentativas, acertos, str( len(word) ), erros, str( len( word ) ) ) )
+    print("\nTentativas: {0} | Acertos: {1} ({2}) | Erros: {3} ({4}) {5}".format(tentativas, acertos, str( len(word) ), erros, str( maxErr ),
+                                                                                 '['+', '.join( errlist )+']' if len( errlist ) != 0 else '' ) )
     # Mostra na tela as linhas da forca
     print( '\n'+' '.join(lines) ) 
     print('\n')
     put() # Executa o código
-    
-if erros == len( word ): # Se você tiver errado o suficiente:
+
+if erros == maxErr: # Se você tiver errado o suficiente:
     print("Você perdeu =(")
 else: # Se não:
     print("Parabéns, você ganhou!")
